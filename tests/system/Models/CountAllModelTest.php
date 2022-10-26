@@ -18,9 +18,6 @@ use Tests\Support\Models\UserModel;
  */
 final class CountAllModelTest extends LiveModelTestCase
 {
-    /**
-     * @see https://github.com/codeigniter4/CodeIgniter4/issues/1617
-     */
     public function testCountAllResultsRespectsSoftDeletes(): void
     {
         $this->createModel(UserModel::class);

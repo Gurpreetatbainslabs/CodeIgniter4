@@ -40,7 +40,6 @@ final class EventsTest extends CIUnitTestCase
     {
         Events::simulate(false);
     }
-
     /**
      * @runInSeparateProcess
      *

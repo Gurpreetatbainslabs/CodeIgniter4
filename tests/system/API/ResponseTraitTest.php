@@ -41,22 +41,22 @@ final class ResponseTraitTest extends CIUnitTestCase
     protected function makeController(array $userConfig = [], string $uri = 'http://example.com', array $userHeaders = [])
     {
         $config = new App();
-
-        foreach ([
-            'baseURL'          => 'http://example.com/',
-            'uriProtocol'      => 'REQUEST_URI',
-            'defaultLocale'    => 'en',
-            'negotiateLocale'  => false,
-            'supportedLocales' => ['en'],
-            'CSPEnabled'       => false,
-            'cookiePrefix'     => '',
-            'cookieDomain'     => '',
-            'cookiePath'       => '/',
-            'cookieSecure'     => false,
-            'cookieHTTPOnly'   => false,
-            'proxyIPs'         => [],
-            'cookieSameSite'   => 'Lax',
-        ] as $key => $value) {
+        $configOpt = [
+        'baseURL'          => 'http://example.com/',
+        'uriProtocol'      => 'REQUEST_URI',
+        'defaultLocale'    => 'en',
+        'negotiateLocale'  => false,
+        'supportedLocales' => ['en'],
+        'CSPEnabled'       => false,
+        'cookiePrefix'     => '',
+        'cookieDomain'     => '',
+        'cookiePath'       => '/',
+        'cookieSecure'     => false,
+        'cookieHTTPOnly'   => false,
+        'proxyIPs'         => [],
+        'cookieSameSite'   => 'Lax',
+        ];
+        foreach ($configOpt as $key => $value) {
             $config->{$key} = $value;
         }
 
@@ -73,13 +73,14 @@ final class ResponseTraitTest extends CIUnitTestCase
 
         foreach ($headers as $key => $value) {
             $this->request->setHeader($key, $value);
-            if (($key === 'Accept') && ! is_array($value)) {
+            if (($key === 'Accept') && !is_array($value)) {
                 $this->response->setContentType($value);
             }
         }
 
         // Create the controller class finally.
-        return new class ($this->request, $this->response, $this->formatter) {
+        return new class($this->request, $this->response, $this->formatter)
+        {
             use ResponseTrait;
 
             protected $request;
@@ -536,7 +537,8 @@ final class ResponseTraitTest extends CIUnitTestCase
         $request  = new MockIncomingRequest($config, new URI($config->baseURL), null, new UserAgent());
         $response = new MockResponse($config);
 
-        $controller = new class ($request, $response) {
+        $controller = new class($request, $response)
+        {
             use ResponseTrait;
 
             protected $request;
